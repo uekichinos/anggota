@@ -10,8 +10,9 @@ services:
   - mysql
 
 before_script:
-  - composer self-update 1.10.17
+  - composer self-update 1.8.6
   - composer --version
+  - composer update
   - composer install
 
 script:
