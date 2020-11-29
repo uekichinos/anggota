@@ -1,0 +1,23 @@
+.announce {
+	border:1px solid;
+	width:100%;
+	text-align: center;
+	border-radius: 0px;
+	margin:0px;
+	padding:10px;
+}
+.announce-message {
+	color: #155724;
+	background-color: #d4edda;
+	border-color: #c3e6cb;
+}
+.announce-warning {
+	color: #856404;
+	background-color: #fff3cd;
+	border-color: #ffeeba;
+}
+.announce-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
