@@ -4,12 +4,12 @@ jobs:
     docker:
       # Specify the version you desire here
       - image: circleci/php:7.2-browsers
-      - image: circleci/mysql:5.7
-        environment:
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
-          MYSQL_USER: root
-          MYSQL_ROOT_PASSWORD: ''
-          MYSQL_DATABASE: anggota
+      # - image: circleci/mysql:5.7
+      #   environment:
+      #     MYSQL_ALLOW_EMPTY_PASSWORD: yes
+      #     MYSQL_USER: root
+      #     MYSQL_ROOT_PASSWORD: ''
+      #     MYSQL_DATABASE: anggota
 
     working_directory: ~/laravel
 
