@@ -12,6 +12,7 @@ services:
 before_script:
   - composer self-update 1.10.17
   - composer --version
+  - composer install
 
 script:
   - vendor/bin/phpunit
