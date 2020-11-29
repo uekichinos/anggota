@@ -4,7 +4,7 @@ A simple web-based membership application.
 
 ## Function
 
-- Memberships/Participants
+- Memberships/Participants with impersonate
 - Downline
 - Roles & Permissions
 - Activity Log
@@ -13,7 +13,7 @@ A simple web-based membership application.
 	- Maintenance
 	- Google Analytics
 	- Announcement
-	- Password 
+	- Password management
 	- Header
 - Profile
 - Password
