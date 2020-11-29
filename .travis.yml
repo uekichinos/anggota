@@ -1,23 +1,15 @@
-os:
-  - linux
-
 language: php
+
+sudo: true
 
 php:
   - 7.2
+  - 7.3
 
-services:
-  - mysql
-
-before_install:
-  - echo "memory_limit=2G" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+env:
+  matrix:
+    - LARAVEL_VERSION=7.0.*
 
 before_script:
-  - cp .env.travis .env
-  - sudo mysql -e 'CREATE DATABASE testing;'
-  - composer self-update
-  - composer install --no-interaction
-  - php artisan migrate --no-interaction -vvv
-
-script:
-  - vendor/bin/phpunit
+  - travis_retry composer self-update
+  - composer require "illuminate/support:${LARAVEL_VERSION}"
