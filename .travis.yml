@@ -9,6 +9,9 @@ php:
 services:
   - mysql
 
+before_install:
+  - echo "memory_limit=2G" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+
 before_script:
   - composer self-update 1.8.6
   - composer --version
