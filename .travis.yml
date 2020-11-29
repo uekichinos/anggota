@@ -11,8 +11,7 @@ services:
 
 before_script:
   - composer self-update 1.10.17
-  - composer install
-  - php artisan key:generate
+  - composer --version
 
 script:
   - vendor/bin/phpunit
