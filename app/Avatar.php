@@ -7,7 +7,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class Avatar extends Model
 {
-	use LogsActivity;
+    use LogsActivity;
 
     protected static $logOnlyDirty = true;
 
@@ -19,7 +19,7 @@ class Avatar extends Model
     protected $fillable = ['userid', 'filedata'];
 
     /**
-     * for audit activity
+     * for audit activity.
      */
     protected static $logAttributes = ['userid', 'filedata'];
 }

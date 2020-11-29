@@ -3,8 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Menu\Laravel\Menu;
 use Spatie\Menu\Laravel\Link;
+use Spatie\Menu\Laravel\Menu;
 
 class MainMenu extends Model
 {
@@ -15,11 +15,11 @@ class MainMenu extends Model
      */
     public function __construct()
     {
-		Menu::macro('main', function() {
-		    return Menu::new()
+        Menu::macro('main', function () {
+            return Menu::new()
                 ->setWrapperTag('nav')
                 ->addClass('nav navbar-nav')
-		        ->route('home', 'Home')
+                ->route('home', 'Home')
 
                 // ->submenu(
                 //     Link::to('#', 'User & Role Management <span class="caret"></span>')
@@ -38,6 +38,6 @@ class MainMenu extends Model
                 ->route('permission.index', 'Permission')
 
                 ->setActive(url()->current());
-		});
+        });
     }
 }

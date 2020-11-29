@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
+use DataTables;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use DataTables;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 use Validator;
+
 // use App\MainMenu;
 
 class RoleController extends Controller
@@ -30,21 +31,22 @@ class RoleController extends Controller
      */
     public function index(Request $request)
     {
-        if($request->ajax()) {
+        if ($request->ajax()) {
             $data = Role::all();
+
             return Datatables::of($data)
                 ->addIndexColumn()
-                ->addColumn('action', function($row) {
+                ->addColumn('action', function ($row) {
                     $user = Auth::user();
 
-                    if($user->hasPermissionTo('view role')) {
+                    if ($user->hasPermissionTo('view role')) {
                         $btn = '<a href="'.route('role.show', $row->id).'" class="btn btn-primary btn-sm"><span style="color:white" class="oi oi-book"></span></a>&nbsp;';
                     }
-                    if($user->hasPermissionTo('edit role')) {
+                    if ($user->hasPermissionTo('edit role')) {
                         $btn .= '<a href="'.route('role.edit', $row->id).'" class="btn btn-primary btn-sm"><span style="color:white" class="oi oi-pencil"></span></a>&nbsp;';
                     }
-                    if($user->hasPermissionTo('delete role')) {
-                        $btn .= '<form method="POST" style="float:right" action="'.route('role.delete', $row->id).'">'.csrf_field().''.method_field("DELETE").'<a href="javascript:this.submit()" class="btn btn-danger btn-sm delete-role"><span style="color:white" class="oi oi-trash"></span></a></form>';
+                    if ($user->hasPermissionTo('delete role')) {
+                        $btn .= '<form method="POST" style="float:right" action="'.route('role.delete', $row->id).'">'.csrf_field().''.method_field('DELETE').'<a href="javascript:this.submit()" class="btn btn-danger btn-sm delete-role"><span style="color:white" class="oi oi-trash"></span></a></form>';
                     }
 
                     return $btn;
@@ -55,7 +57,7 @@ class RoleController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
-      
+
         return view('role.index');
     }
 
@@ -67,62 +69,63 @@ class RoleController extends Controller
     public function create()
     {
         $permissions = Permission::all();
-        if(count($permissions) > 0) {
+        if (count($permissions) > 0) {
             $records = [];
             foreach ($permissions as $key => $permission) {
-                $tmp = explode(" ", $permission->name);
-                if(count($tmp) > 1) {
+                $tmp = explode(' ', $permission->name);
+                if (count($tmp) > 1) {
                     $records[ucfirst($tmp[1])][$permission->name] = ucfirst($tmp[0]);
-                }
-                else {
+                } else {
                     $records[ucfirst($tmp[0])][$permission->name] = ucfirst($tmp[0]);
                 }
             }
         }
 
-        return view('role.create')->with(array('permissions' => $records));
+        return view('role.create')->with(['permissions' => $records]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|max:255',
-            'permission' => 'required'
+            'name'       => 'required|max:255',
+            'permission' => 'required',
         ]);
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return redirect(route('role.create'))
                 ->withErrors($validator)
                 ->withInput();
         }
 
-        $role = new Role;
+        $role = new Role();
         $role->name = strtolower($request->name);
         $role->guard_name = 'web';
         $role->save();
 
         $permissions = $request->permission;
-        if(count($permissions) > 0) {
+        if (count($permissions) > 0) {
             foreach ($permissions as $permission) {
-                $p = Permission::where('name', '=', $permission)->firstOrFail(); 
-                $role = Role::where('name', '=', strtolower($request->name))->first(); 
+                $p = Permission::where('name', '=', $permission)->firstOrFail();
+                $role = Role::where('name', '=', strtolower($request->name))->first();
                 $role->givePermissionTo($p);
             }
         }
 
-        return redirect()->route('role.index')->with('success','Role created successfully!');
+        return redirect()->route('role.index')->with('success', 'Role created successfully!');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -131,7 +134,7 @@ class RoleController extends Controller
 
         $rolepermissions = [];
         $permissions = $role->permissions()->get();
-        if(count($permissions) > 0) {
+        if (count($permissions) > 0) {
             foreach ($permissions as $key => $permission) {
                 $rolepermissions[] = $permission->name;
             }
@@ -139,20 +142,21 @@ class RoleController extends Controller
 
         $records = [];
         $permissions = Permission::all();
-        if(count($permissions) > 0) {
+        if (count($permissions) > 0) {
             foreach ($permissions as $key => $permission) {
-                $tmp = explode(" ", $permission->name);
+                $tmp = explode(' ', $permission->name);
                 $records[ucfirst($tmp[1])][$permission->name] = ucfirst($tmp[0]);
             }
         }
 
-        return view('role.show')->with(array('role' => $role, 'permissions' => $records, 'rolepermissions' => $rolepermissions));
+        return view('role.show')->with(['role' => $role, 'permissions' => $records, 'rolepermissions' => $rolepermissions]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -161,7 +165,7 @@ class RoleController extends Controller
 
         $rolepermissions = [];
         $permissions = $role->permissions()->get();
-        if(count($permissions) > 0) {
+        if (count($permissions) > 0) {
             foreach ($permissions as $key => $permission) {
                 $rolepermissions[] = $permission->name;
             }
@@ -169,30 +173,31 @@ class RoleController extends Controller
 
         $records = [];
         $permissions = Permission::all();
-        if(count($permissions) > 0) {
+        if (count($permissions) > 0) {
             foreach ($permissions as $key => $permission) {
-                $tmp = explode(" ", $permission->name);
+                $tmp = explode(' ', $permission->name);
                 $records[ucfirst($tmp[1])][$permission->name] = ucfirst($tmp[0]);
             }
         }
 
-        return view('role.edit')->with(array('role' => $role, 'permissions' => $records, 'rolepermissions' => $rolepermissions));
+        return view('role.edit')->with(['role' => $role, 'permissions' => $records, 'rolepermissions' => $rolepermissions]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int                      $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|max:255'
+            'name' => 'required|max:255',
         ]);
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return redirect('/role/edit/'.$id)
                 ->withErrors($validator)
                 ->withInput();
@@ -209,20 +214,21 @@ class RoleController extends Controller
             $role->revokePermissionTo($p);
         }
 
-        if(isset($permissions)) {
+        if (isset($permissions)) {
             foreach ($permissions as $permission) {
                 $p = Permission::where('name', '=', $permission)->firstOrFail();
                 $role->givePermissionTo($p);
             }
         }
 
-        return redirect()->route('role.index')->with('success','Role updated successfully!');
+        return redirect()->route('role.index')->with('success', 'Role updated successfully!');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -230,6 +236,6 @@ class RoleController extends Controller
         $role = Role::find($id);
         $role->delete();
 
-        return redirect()->route('role.index')->with('success','Role deleted successfully!');
+        return redirect()->route('role.index')->with('success', 'Role deleted successfully!');
     }
 }

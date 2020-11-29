@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
-use Artisan;
 use App\Setting;
+use Artisan;
+use Illuminate\Console\Command;
 
 class Maintenance extends Command
 {
@@ -40,23 +40,22 @@ class Maintenance extends Command
     public function handle()
     {
         $settings = Setting::where('param', 'LIKE', 'maintenance_%')->get();
-        if(count($settings) > 0) {
+        if (count($settings) > 0) {
             $config = [];
             foreach ($settings as $key => $setting) {
                 $config[$setting->param] = $setting->value;
             }
 
-            if(count($config) > 0) {
+            if (count($config) > 0) {
                 $mode = $config['maintenance_mode'];
                 $retry = $config['maintenance_retry'];
                 $allow = $config['maintenance_allow'];
                 $msg = $config['maintenance_msg'];
                 $down_file = storage_path().'/framework/down';
 
-                if($mode == 'yes' && !file_exists($down_file)) {
+                if ($mode == 'yes' && !file_exists($down_file)) {
                     Artisan::queue('down --message="'.$msg.'" --retry='.$retry);
-                }
-                elseif($mode == 'no' && file_exists($down_file)) {
+                } elseif ($mode == 'no' && file_exists($down_file)) {
                     Artisan::queue('up');
                 }
             }

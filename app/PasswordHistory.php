@@ -2,7 +2,6 @@
 
 namespace App;
 
-use App\Setting;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
@@ -24,86 +23,84 @@ class PasswordHistory extends Model
     protected $fillable = ['userid', 'password'];
 
     /**
-    * Get password history limit/value
-    * 
-    */
-    public static function getLimit() {
-
-    	$return = 0;
-    	$settings = Setting::where('param', 'LIKE', 'password_history')->get();
-        if($settings !== null) {
+     * Get password history limit/value.
+     */
+    public static function getLimit()
+    {
+        $return = 0;
+        $settings = Setting::where('param', 'LIKE', 'password_history')->get();
+        if ($settings !== null) {
             foreach ($settings as $key => $setting) {
-            	$return = $setting->value;
-			}
-		}
-		return $return;
+                $return = $setting->value;
+            }
+        }
+
+        return $return;
     }
 
     /**
-    * Insert new password
-    * 
-    */
-    public static function capturePassword($password) {
-
-    	$limit = self::getLimit();
-		if($limit > 0) {
-			$id = Auth::user()->id;
-			$history = new PasswordHistory;
-	        $history->userid = $id;
-	        $history->password = Crypt::encryptString($password);
-	        $history->save();	
-		}
+     * Insert new password.
+     */
+    public static function capturePassword($password)
+    {
+        $limit = self::getLimit();
+        if ($limit > 0) {
+            $id = Auth::user()->id;
+            $history = new PasswordHistory();
+            $history->userid = $id;
+            $history->password = Crypt::encryptString($password);
+            $history->save();
+        }
     }
 
     /**
-    * Check if password already available in password history
-    * 
-    */
-    public static function isExist($password) {
+     * Check if password already available in password history.
+     */
+    public static function isExist($password)
+    {
+        $limit = self::getLimit();
+        if ($limit > 0) {
+            $id = Auth::user()->id;
+            $histories = PasswordHistory::where('userid', $id)->orderBy('id', 'desc')->limit($limit)->get();
+            if ($histories !== null) {
+                foreach ($histories as $key => $history) {
+                    $history_password = Crypt::decryptString($history->password);
+                    if ($history_password == $password) {
+                        return true;
+                    }
+                }
+            }
+        }
 
-    	$limit = self::getLimit();
-		if($limit > 0) {
-			$id = Auth::user()->id;
-			$histories = PasswordHistory::where('userid', $id)->orderBy('id', 'desc')->limit($limit)->get();
-	        if($histories !== null) {
-	            foreach ($histories as $key => $history) {
-	            	$history_password = Crypt::decryptString($history->password);
-	            	if($history_password == $password) {
-	            		return true;
-	            	}
-				}
-			}
-		}
-		return false;
+        return false;
     }
 
     /**
-    * Check when the last time user update password
-    * 
-    */
-    public static function coldDown() {
-
-    	$period = 0;
-    	$settings = Setting::where('param', 'LIKE', 'password_colddown')->get();
-        if($settings !== null) {
+     * Check when the last time user update password.
+     */
+    public static function coldDown()
+    {
+        $period = 0;
+        $settings = Setting::where('param', 'LIKE', 'password_colddown')->get();
+        if ($settings !== null) {
             foreach ($settings as $key => $setting) {
-            	$period = $setting->value;
-			}
-		}
+                $period = $setting->value;
+            }
+        }
 
-		if($period != 0) {
-			$id = Auth::user()->id;
-			$histories = PasswordHistory::where('userid', $id)->orderBy('id', 'desc')->limit(1)->get();
-	        if($histories !== null) {
-	            foreach ($histories as $key => $history) {
-	            	$targetdate = date("Y-m-d H:i:s", strtotime($history->created_at.' + '.$period.' hours'));
-	            	if($targetdate > date('Y-m-d H:i:s')) {
-	            		return date('d M Y, h:ia', strtotime($targetdate));
-	            	}
-				}
-			}
-		}
+        if ($period != 0) {
+            $id = Auth::user()->id;
+            $histories = PasswordHistory::where('userid', $id)->orderBy('id', 'desc')->limit(1)->get();
+            if ($histories !== null) {
+                foreach ($histories as $key => $history) {
+                    $targetdate = date('Y-m-d H:i:s', strtotime($history->created_at.' + '.$period.' hours'));
+                    if ($targetdate > date('Y-m-d H:i:s')) {
+                        return date('d M Y, h:ia', strtotime($targetdate));
+                    }
+                }
+            }
+        }
 
-		return false;
+        return false;
     }
 }

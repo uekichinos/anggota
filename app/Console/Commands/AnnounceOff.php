@@ -2,9 +2,8 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
-use Artisan;
 use App\Setting;
+use Illuminate\Console\Command;
 
 class AnnounceOff extends Command
 {
@@ -40,18 +39,18 @@ class AnnounceOff extends Command
     public function handle()
     {
         $settings = Setting::where('param', 'LIKE', 'announce_%')->get();
-        if(count($settings) > 0) {
+        if (count($settings) > 0) {
             $config = [];
             foreach ($settings as $key => $setting) {
                 $config[$setting->param] = $setting->value;
             }
 
-            if(count($config) > 0) {
+            if (count($config) > 0) {
                 $mode = $config['announce_mode'];
                 $end_datetime = date('YmdHi', strtotime($config['announce_end']));
                 $current_datetime = date('YmdHi', strtotime('+8 hour'));
-                
-                if($mode == 'yes' && $current_datetime >= $end_datetime) {
+
+                if ($mode == 'yes' && $current_datetime >= $end_datetime) {
                     Setting::where('param', 'announce_mode')->update(['value' => 'no']);
                 }
             }

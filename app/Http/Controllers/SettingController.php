@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Validator;
-use App\Setting;
 use App\Rules\Password;
+use App\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Validator;
 
 class SettingController extends Controller
 {
@@ -18,7 +18,8 @@ class SettingController extends Controller
     public function edit_maintenance()
     {
         $settings = Setting::where('param', 'LIKE', 'maintenance_%')->get();
-        return view('setting.maintenance', array('settings' => $settings));
+
+        return view('setting.maintenance', ['settings' => $settings]);
     }
 
     /**
@@ -29,14 +30,14 @@ class SettingController extends Controller
     public function update_maintenance(Request $request)
     {
         $fields = [
-            'maintenance_msg' => 'required|max:255',
+            'maintenance_msg'   => 'required|max:255',
             'maintenance_retry' => 'required|integer',
             'maintenance_allow' => 'required',
-            'maintenance_mode' => 'required'
+            'maintenance_mode'  => 'required',
         ];
 
         $validator = Validator::make($request->all(), $fields);
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return redirect(route('setting.maintenance'))->withErrors($validator)->withInput();
         }
 
@@ -46,7 +47,7 @@ class SettingController extends Controller
             $setting->save();
         }
 
-        return redirect()->route('setting.maintenance')->with('success','Updated successfully!');
+        return redirect()->route('setting.maintenance')->with('success', 'Updated successfully!');
     }
 
     /**
@@ -57,7 +58,8 @@ class SettingController extends Controller
     public function edit_ga()
     {
         $settings = Setting::where('param', 'LIKE', 'ga_%')->get();
-        return view('setting.ga', array('settings' => $settings));
+
+        return view('setting.ga', ['settings' => $settings]);
     }
 
     /**
@@ -76,7 +78,7 @@ class SettingController extends Controller
         ];
 
         $validator = Validator::make($request->all(), $fields);
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return redirect(route('setting.ga'))->withErrors($validator)->withInput();
         }
 
@@ -86,7 +88,7 @@ class SettingController extends Controller
             $setting->save();
         }
 
-        return redirect()->route('setting.ga')->with('success','Updated successfully!');
+        return redirect()->route('setting.ga')->with('success', 'Updated successfully!');
     }
 
     /**
@@ -97,7 +99,8 @@ class SettingController extends Controller
     public function edit_announce()
     {
         $settings = Setting::where('param', 'LIKE', 'announce_%')->get();
-        return view('setting.announce', array('settings' => $settings));
+
+        return view('setting.announce', ['settings' => $settings]);
     }
 
     /**
@@ -109,7 +112,7 @@ class SettingController extends Controller
     {
         $fields = [
             'announce_mode' => 'required',
-            'announce_msg' => Rule::requiredIf(function () use ($request) {
+            'announce_msg'  => Rule::requiredIf(function () use ($request) {
                 return $request->announce_mode == 'yes';
             }),
             'announce_start' => Rule::requiredIf(function () use ($request) {
@@ -122,7 +125,7 @@ class SettingController extends Controller
         ];
 
         $validator = Validator::make($request->all(), $fields);
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return redirect(route('setting.announce'))->withErrors($validator)->withInput();
         }
 
@@ -132,7 +135,7 @@ class SettingController extends Controller
             $setting->save();
         }
 
-        return redirect()->route('setting.announce')->with('success','Updated successfully!');
+        return redirect()->route('setting.announce')->with('success', 'Updated successfully!');
     }
 
     /**
@@ -143,7 +146,8 @@ class SettingController extends Controller
     public function edit_password()
     {
         $settings = Setting::where('param', 'LIKE', 'password_%')->get();
-        return view('setting.password', array('settings' => $settings));
+
+        return view('setting.password', ['settings' => $settings]);
     }
 
     /**
@@ -166,14 +170,14 @@ class SettingController extends Controller
 
         $fields = [];
         $settings = Setting::where('param', 'LIKE', 'password_%')->get();
-        if($settings !== null) {
+        if ($settings !== null) {
             foreach ($settings as $key => $setting) {
                 $fields[$setting->param] = 'required';
             }
         }
 
         $validator = Validator::make($request->all(), $fields);
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return redirect(route('setting.password'))->withErrors($validator)->withInput();
         }
 
@@ -183,7 +187,7 @@ class SettingController extends Controller
             $setting->save();
         }
 
-        return redirect()->route('setting.password')->with('success','Updated successfully!');
+        return redirect()->route('setting.password')->with('success', 'Updated successfully!');
     }
 
     /**
@@ -194,7 +198,8 @@ class SettingController extends Controller
     public function edit_header()
     {
         $settings = Setting::where('param', 'LIKE', 'header_%')->get();
-        return view('setting.header', array('settings' => $settings));
+
+        return view('setting.header', ['settings' => $settings]);
     }
 
     /**
@@ -205,11 +210,11 @@ class SettingController extends Controller
     public function update_header(Request $request)
     {
         $fields = [
-            'header_title' => 'required|max:255'
+            'header_title' => 'required|max:255',
         ];
 
         $validator = Validator::make($request->all(), $fields);
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return redirect(route('setting.header'))->withErrors($validator)->withInput();
         }
 
@@ -219,6 +224,6 @@ class SettingController extends Controller
             $setting->save();
         }
 
-        return redirect()->route('setting.header')->with('success','Updated successfully!');
+        return redirect()->route('setting.header')->with('success', 'Updated successfully!');
     }
 }

@@ -1,9 +1,9 @@
 <?php
 
-use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
 use App\User;
+use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class RolePermissionSeeder extends Seeder
 {
@@ -40,7 +40,7 @@ class RolePermissionSeeder extends Seeder
         Permission::create(['name' => 'list activitylog']);
         Permission::create(['name' => 'view activitylog']);
         Permission::create(['name' => 'delete activitylog']);
-        
+
         Permission::create(['name' => 'list logviewer']);
         Permission::create(['name' => 'view logviewer']);
         Permission::create(['name' => 'delete logviewer']);
@@ -48,12 +48,12 @@ class RolePermissionSeeder extends Seeder
         Permission::create(['name' => 'list permission']);
 
         Permission::create(['name' => 'edit setting']);
-        
+
         Role::create(['name' => 'member']);
 
         $role = Role::create(['name' => 'admin']);
         $role->givePermissionTo(Permission::all());
-        
+
         $user = User::find(1);
         $user->assignRole('admin');
     }
