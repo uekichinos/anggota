@@ -1,3 +1,5 @@
+[![StyleCI](https://github.styleci.io/repos/316857315/shield?branch=master)](https://github.styleci.io/repos/316857315?branch=master)
+
 ## Anggota
 
 A simple web-based membership application. 
