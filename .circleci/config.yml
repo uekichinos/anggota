@@ -16,13 +16,13 @@ jobs:
       # for database intensive operations.
       # - image: circleci/mysql:5.7-ram
       # - image: redis:3
-      - image: circleci/mysql:8.0.20-ram
-        command: mysqld --default-authentication-plugin=mysql_native_password
-        environment:
-          MYSQL_USER: root
-          MYSQL_DATABASE: anggota
-          MYSQL_ROOT_PASSWORD: ''
-          MYSQL_PASSWORD: ''
+      # - image: circleci/mysql:8.0.20-ram
+      #   command: mysqld --default-authentication-plugin=mysql_native_password
+      #   environment:
+      #     MYSQL_USER: root
+      #     MYSQL_DATABASE: anggota
+      #     MYSQL_ROOT_PASSWORD: ''
+      #     MYSQL_PASSWORD: ''
 
     steps:
       - checkout
