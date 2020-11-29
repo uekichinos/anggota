@@ -14,5 +14,4 @@ class Setting extends Model
     protected static $logAttributes = ['type', 'label', 'param', 'value', 'field', 'options', 'note'];
 
     protected static $logOnlyDirty = true;
-
 }

@@ -5,8 +5,8 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Spatie\Permission\Traits\HasRoles;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -38,7 +38,7 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = ['email_verified_at' => 'datetime', 'last_online_at' => 'datetime'];
 
     /**
-     * for audit activity
+     * for audit activity.
      */
     protected static $logAttributes = ['name', 'email', 'password'];
 

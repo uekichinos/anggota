@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->timestamp("last_online_at")->useCurrent();
+            $table->timestamp('last_online_at')->useCurrent();
             $table->string('nric', 12)->nullable();
             $table->string('contactno', 12)->nullable();
             $table->string('memberno', 12)->nullable();

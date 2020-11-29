@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Spatie\Permission\Models\Permission;
-use Illuminate\Http\Request;
 use DataTables;
-use Validator;
+use Illuminate\Http\Request;
+use Spatie\Permission\Models\Permission;
+
 // use App\MainMenu;
 
 class PermissionController extends Controller
@@ -28,11 +28,12 @@ class PermissionController extends Controller
      */
     public function index(Request $request)
     {
-        if($request->ajax()) {
+        if ($request->ajax()) {
             $data = Permission::all();
+
             return Datatables::of($data)->addIndexColumn()->make(true);
         }
-      
+
         return view('permission.index');
     }
 }

@@ -29,7 +29,7 @@ class VerificationController extends Controller
     protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
-     * overwrite redirect to
+     * overwrite redirect to.
      */
     public function redirectTo()
     {
