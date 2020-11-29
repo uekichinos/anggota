@@ -10,4 +10,9 @@ services:
   - mysql
 
 before_script:
-  - mysql --version
+  - composer self-update
+  - composer install
+  - php artisan key:generate
+
+script:
+  - vendor/bin/phpunit
