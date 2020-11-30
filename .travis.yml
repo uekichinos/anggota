@@ -6,13 +6,12 @@ php:
 
 env:
   matrix:
-    - LARAVEL_VERSION=7.0.*
     - COMPOSER_FLAGS="--prefer-lowest"
     - COMPOSER_FLAGS=""
 
 before_script:
   - travis_retry composer self-update 1.8.6
-  - COMPOSER_MEMORY_LIMIT=-1 composer require "illuminate/support:${LARAVEL_VERSION}"
+  - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-source
 
 before_install:
   - echo "memory_limit=2G" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
