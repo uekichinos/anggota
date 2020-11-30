@@ -1,13 +1,15 @@
 language: php
 
+sudo: true
+
 php:
   - 7.2
+  - 7.3
+
+env:
+  matrix:
+    - LARAVEL_VERSION=7.0.*
 
 before_script:
   - travis_retry composer self-update 1.8.6
-  - travis_retry composer install --prefer-source --no-interaction
-  - cp .env.example .env
-  - php artisan key:generate
-
-script:
-  - vendor/bin/phpunit
+  - composer require "illuminate/support:${LARAVEL_VERSION}"
