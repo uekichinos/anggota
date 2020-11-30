@@ -3,7 +3,6 @@ language: php
 php:
   - 7.2
   - 7.3
-  - 7.4
 
 services:
   - mysql
@@ -17,4 +16,4 @@ before_script:
   - composer update --prefer-lowest --no-interaction --prefer-source
   - composer install
   - cp .env.example .env
-  - php artisan migrate:refresh --seed
+  - php artisan migrate:refresh --seeds
