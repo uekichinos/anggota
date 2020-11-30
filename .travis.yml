@@ -12,8 +12,7 @@ env:
 
 before_script:
   - travis_retry composer self-update 1.8.6
-  - composer require "illuminate/support:${LARAVEL_VERSION}"
+  - COMPOSER_MEMORY_LIMIT=-1 composer require "illuminate/support:${LARAVEL_VERSION}"
 
 before_install:
-  - COMPOSER_MEMORY_LIMIT=-1
   - echo "memory_limit=2G" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
