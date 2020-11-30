@@ -1,7 +1,5 @@
 language: php
 
-sudo: true
-
 php:
   - 7.2
   - 7.3
@@ -9,6 +7,8 @@ php:
 env:
   matrix:
     - LARAVEL_VERSION=7.0.*
+    - COMPOSER_FLAGS="--prefer-lowest"
+    - COMPOSER_FLAGS=""
 
 before_script:
   - travis_retry composer self-update 1.8.6
