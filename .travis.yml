@@ -4,6 +4,9 @@ php:
   - 7.2
   - 7.3
 
+services:
+  - mysql
+
 env:
   matrix:
     - LARAVEL_VERSION=7.0.*
@@ -11,6 +14,9 @@ env:
 before_script:
   - travis_retry composer self-update 1.8.6
   - composer update --prefer-lowest --no-interaction --prefer-source
+  - composer install
+  - cp .env.example .env
 
 before_install:
   - echo "memory_limit=2G" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+  - mysql -e 'CREATE DATABASE anggota;'
