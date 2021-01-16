@@ -11,6 +11,11 @@ A simple web-based membership application.
 -   Roles & Permissions
 -   Activity Log
 -   Log Viewer
--   Settings - Maintenance - Google Analytics - Announcement - Password management - Header
+-   Settings
+    -   Maintenance
+    -   Google Analytics
+    -   Announcement
+    -   Password management
+    -   Header
 -   Profile
 -   Password
