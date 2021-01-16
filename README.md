@@ -8,6 +8,7 @@ A simple web-based membership application.
 
 -   Memberships/Participants with impersonate
 -   Downline
+-   Plan
 -   Roles & Permissions
 -   Activity Log
 -   Log Viewer
