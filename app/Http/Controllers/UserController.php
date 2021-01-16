@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Rules\Password;
 use App\User;
+use App\Plan;
 use DataTables;
 use Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-// use App\MainMenu;
 use Spatie\Permission\Models\Role;
 use Validator;
 
@@ -68,8 +68,9 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::all();
+        $plans = Plan::all();
 
-        return view('user.create')->with(['roles' => $roles]);
+        return view('user.create')->with(['roles' => $roles, 'plans' => $plans]);
     }
 
     /**
@@ -82,6 +83,7 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
+            'username'        => 'required|max:128|unique:users,username',
             'name'            => 'required|max:255',
             'email'           => 'required|email|unique:users,email',
             'password'        => ['required', new Password()],
@@ -92,6 +94,7 @@ class UserController extends Controller
             'memberno'        => 'required',
             'address'         => 'required',
             'dob'             => 'required|date',
+            'plan'            => 'required',
             'bankname'        => 'required',
             'bankaccno'       => 'required',
             'n_name'          => 'required|max:255',
@@ -107,8 +110,9 @@ class UserController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
-
+        
         $user = new User();
+        $user->username = $request->username;
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
@@ -117,6 +121,7 @@ class UserController extends Controller
         $user->memberno = $request->memberno;
         $user->address = $request->address;
         $user->dob = $request->dob;
+        $user->plan = implode("|", $request->plan);
         $user->bankname = $request->bankname;
         $user->bankaccno = $request->bankaccno;
         $user->n_name = $request->n_name;
@@ -141,6 +146,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
+        $plans = Plan::all();
         $user = User::find($id);
         $user->role = $user->getRoleNames()[0];
         $introducer = User::where('memberno', $user->i_memberno)->get();
@@ -150,7 +156,7 @@ class UserController extends Controller
             $introducer = false;
         }
 
-        return view('user.show')->with(['user' => $user, 'introducer' => $introducer]);
+        return view('user.show')->with(['user' => $user, 'introducer' => $introducer, 'plans' => $plans]);
     }
 
     /**
@@ -164,6 +170,7 @@ class UserController extends Controller
     {
         $user = User::find($id);
         $roles = Role::all();
+        $plans = Plan::all();
 
         $user_roles = [];
         $tmp = $user->getRoleNames();
@@ -173,7 +180,7 @@ class UserController extends Controller
             }
         }
 
-        return view('user.edit')->with(['user' => $user, 'user_roles' => $user_roles, 'roles' => $roles]);
+        return view('user.edit')->with(['user' => $user, 'user_roles' => $user_roles, 'roles' => $roles, 'plans' => $plans]);
     }
 
     /**
@@ -195,6 +202,7 @@ class UserController extends Controller
             'memberno'    => 'required',
             'address'     => 'required',
             'dob'         => 'required|date',
+            'plan'        => 'required',
             'bankname'    => 'required',
             'bankaccno'   => 'required',
             'n_name'      => 'required|max:255',
@@ -220,6 +228,7 @@ class UserController extends Controller
         $user->memberno = $request->memberno;
         $user->address = $request->address;
         $user->dob = $request->dob;
+        $user->plan = implode("|", $request->plan);
         $user->bankname = $request->bankname;
         $user->bankaccno = $request->bankaccno;
         $user->n_name = $request->n_name;

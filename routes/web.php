@@ -19,7 +19,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes(['verify' => false]);
+Auth::routes(['verify' => false, 'register' => false, 'reset' => false]);
 
 Route::group(['prefix' => Config::get('app.backend_path'), 'middleware' => ['auth']], function () {
     Route::post('/searchuser', 'UserController@searchuser');
@@ -33,6 +33,14 @@ Route::group(['prefix' => Config::get('app.backend_path'), 'middleware' => ['aut
     Route::get('/user/edit/{id}', ['uses'=>'UserController@edit', 'as'=>'user.edit'])->middleware('permission:edit user');
     Route::post('/user/update/{id}', ['uses'=>'UserController@update', 'as'=>'user.update'])->middleware('permission:edit user');
     Route::delete('/user/delete/{id}', ['uses'=>'UserController@destroy', 'as'=>'user.delete'])->middleware('permission:delete user');
+
+    Route::get('/plan', ['uses'=>'PlanController@index', 'as'=>'plan.index'])->middleware('permission:list plan');
+    Route::get('/plan/create', ['uses'=>'PlanController@create', 'as'=>'plan.create'])->middleware('permission:create plan');
+    Route::post('/plan/store', ['uses'=>'PlanController@store', 'as'=>'plan.store'])->middleware('permission:create plan');
+    Route::get('/plan/show/{id}', ['uses'=>'PlanController@show', 'as'=>'plan.show'])->middleware('permission:view plan');
+    Route::get('/plan/edit/{id}', ['uses'=>'PlanController@edit', 'as'=>'plan.edit'])->middleware('permission:edit plan');
+    Route::post('/plan/update/{id}', ['uses'=>'PlanController@update', 'as'=>'plan.update'])->middleware('permission:edit plan');
+    Route::delete('/plan/delete/{id}', ['uses'=>'PlanController@destroy', 'as'=>'plan.delete'])->middleware('permission:delete plan');
 
     Route::get('impersonate/revert', ['uses' => 'UserController@revert', 'as' => 'impersonate.revert']);
     Route::get('impersonate/{user}', ['uses' => 'UserController@impersonate', 'as' => 'impersonate.impersonate'])->middleware('permission:impersonate user');

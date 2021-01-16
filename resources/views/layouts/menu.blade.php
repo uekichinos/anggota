@@ -9,6 +9,10 @@
 	    <a href="{{ route('user.index') }}" class="list-group-item list-group-item-action {{ Request::segment(2) === 'user' ? 'active' : null }}">Participants</a>
 	@endcan
 
+	@canany('list plan')
+	    <a href="{{ route('plan.index') }}" class="list-group-item list-group-item-action {{ Request::segment(2) === 'plan' ? 'active' : null }}">Plans</a>
+	@endcan
+
 	<a href="{{ route('downline.index') }}" class="list-group-item list-group-item-action {{ Request::segment(2) === 'downline' ? 'active' : null }}">Downline</a>
 
 	@canany('list role')

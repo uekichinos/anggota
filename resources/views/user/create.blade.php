@@ -38,9 +38,9 @@ function cleanup() {
                 @csrf
                 <h5>Account</h5>
                 <div class="form-group">
-                    <label>Email address</label>
-                    <input type="email" class="form-control form-control-lg @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" autofocus>
-                    @error('email')
+                    <label>Username</label>
+                    <input type="textfield" class="form-control form-control-lg @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" autofocus>
+                    @error('username')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
@@ -89,6 +89,24 @@ function cleanup() {
                     @enderror
                 </div>
                 <div class="form-group">
+                    <label>Member No</label>
+                    <input type="textfield" class="form-control form-control-lg @error('memberno') is-invalid @enderror" name="memberno" value="{{ old('memberno') }}" autofocus>
+                    @error('memberno')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+                <div class="form-group">
+                    <label>Email address</label>
+                    <input type="email" class="form-control form-control-lg @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" autofocus>
+                    @error('email')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+                <div class="form-group">
                     <label>NRIC</label>
                     <input type="number" class="form-control form-control-lg @error('nric') is-invalid @enderror" name="nric" value="{{ old('nric') }}" autofocus>
                     @error('nric')
@@ -101,15 +119,6 @@ function cleanup() {
                     <label>Contact No</label>
                     <input type="textfield" class="form-control form-control-lg @error('contactno') is-invalid @enderror" name="contactno" value="{{ old('contactno') }}" autofocus>
                     @error('contactno')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </div>
-                <div class="form-group">
-                    <label>Member No</label>
-                    <input type="textfield" class="form-control form-control-lg @error('memberno') is-invalid @enderror" name="memberno" value="{{ old('memberno') }}" autofocus>
-                    @error('memberno')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
@@ -146,6 +155,22 @@ function cleanup() {
                     <label>Account No</label>
                     <input type="number" class="form-control form-control-lg @error('bankaccno') is-invalid @enderror" name="bankaccno" value="{{ old('bankaccno') }}" autofocus>
                     @error('bankaccno')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+                <br><hr>
+                <h5>Subscribe Plan</h5>
+                <div class="form-group">
+                    <label>Plan</label>
+                    @foreach ($plans as $key => $val)
+                        <div class="form-check @error('dob') is-invalid @enderror">
+                            <input class="form-check-input" type="checkbox" value="{{ $val->id }}" name="plan[]">
+                            <label class="form-check-label">{{ $val->name }}</label>
+                        </div>
+                    @endforeach
+                    @error('plan')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
