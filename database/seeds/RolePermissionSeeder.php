@@ -42,7 +42,7 @@ class RolePermissionSeeder extends Seeder
         Permission::create(['name' => 'edit plan']);
         Permission::create(['name' => 'view plan']);
         Permission::create(['name' => 'delete plan']);
-        
+
         Permission::create(['name' => 'list activitylog']);
         Permission::create(['name' => 'view activitylog']);
         Permission::create(['name' => 'delete activitylog']);

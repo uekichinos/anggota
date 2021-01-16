@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
-use DataTables;
 use App\Plan;
+use DataTables;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Validator;
@@ -62,7 +61,8 @@ class PlanController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -91,7 +91,8 @@ class PlanController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Plan  $plan
+     * @param \App\Plan $plan
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -104,7 +105,8 @@ class PlanController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Plan  $plan
+     * @param \App\Plan $plan
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -117,8 +119,9 @@ class PlanController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Plan  $plan
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Plan                $plan
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -147,7 +150,8 @@ class PlanController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Plan  $plan
+     * @param \App\Plan $plan
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(Plan $plan)
