@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Plan;
 use App\Rules\Password;
 use App\User;
-use App\Plan;
 use DataTables;
 use Hash;
 use Illuminate\Http\Request;
@@ -110,7 +110,7 @@ class UserController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
-        
+
         $user = new User();
         $user->username = $request->username;
         $user->name = $request->name;
@@ -121,7 +121,7 @@ class UserController extends Controller
         $user->memberno = $request->memberno;
         $user->address = $request->address;
         $user->dob = $request->dob;
-        $user->plan = implode("|", $request->plan);
+        $user->plan = implode('|', $request->plan);
         $user->bankname = $request->bankname;
         $user->bankaccno = $request->bankaccno;
         $user->n_name = $request->n_name;
@@ -228,7 +228,7 @@ class UserController extends Controller
         $user->memberno = $request->memberno;
         $user->address = $request->address;
         $user->dob = $request->dob;
-        $user->plan = implode("|", $request->plan);
+        $user->plan = implode('|', $request->plan);
         $user->bankname = $request->bankname;
         $user->bankaccno = $request->bankaccno;
         $user->n_name = $request->n_name;
