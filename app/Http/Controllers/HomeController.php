@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
@@ -26,9 +27,9 @@ class HomeController extends Controller
         $ismember = false;
 
         $user = Auth::user();
-        
+
         $role = $user->getRoleNames()[0];
-        if($role == 'member') {
+        if ($role == 'member') {
             $ismember = true;
         }
 
