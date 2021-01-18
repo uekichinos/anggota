@@ -1,4 +1,5 @@
 [![StyleCI](https://github.styleci.io/repos/316857315/shield?branch=master)](https://github.styleci.io/repos/316857315?branch=master)
+![Laravel](https://github.com/uekichinos/anggota/workflows/Laravel/badge.svg)
 
 ## Anggota
 
