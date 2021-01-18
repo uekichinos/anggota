@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 use Validator;
+use App;
 
 class UserController extends Controller
 {
@@ -301,5 +302,58 @@ class UserController extends Controller
             ->get();
 
         return response()->json(['result'=> $result], 200);
+    }
+
+    /**
+     * Member acceptance.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function accept(Request $request)
+    {
+        $user = Auth::user();
+        $copywriting = $this->copywriting();
+
+        return view('user.accept')->with(['user' => $user, 'copywriting' => $copywriting]);
+    }
+
+    /**
+     * Member sign acceptance.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function sign(Request $request)
+    {
+        $user = Auth::user();
+        $user->accept_at = date('Y-m-d H:i:s');
+        $user->save();
+        
+        return redirect()->route('home');
+    }
+
+    /**
+     * Acceptance copy writing.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function copywriting()
+    {
+        $string = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur dapibus turpis quis lorem aliquam lobortis. Donec ut ultricies nisi. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Duis eget orci sit amet odio suscipit finibus at vel nisi. Aliquam convallis neque ac purus volutpat ultricies. Duis vitae tincidunt turpis, et vestibulum tellus. In purus ante, congue nec nisl non, accumsan venenatis lorem. Vivamus nunc nulla, posuere eu hendrerit a, pretium efficitur est. Vestibulum feugiat tempor elit in scelerisque. Morbi non pellentesque odio. Vestibulum et dignissim nulla.<br><br>Phasellus rutrum ultrices magna quis placerat. Vivamus quis elementum risus. Pellentesque eu dapibus nibh. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent lorem est, rhoncus id ligula ac, aliquet consequat urna. Maecenas tincidunt elementum risus dictum sodales. Nam finibus massa eget ultricies commodo. Nam consequat diam mauris, non lobortis felis sollicitudin sed. Maecenas malesuada mattis consequat. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aenean cursus arcu nisi, vel feugiat diam iaculis a. Pellentesque dapibus metus mi, et laoreet eros imperdiet ut. Pellentesque tincidunt augue eget leo mattis, quis finibus urna mollis. Fusce imperdiet congue suscipit. Praesent molestie ipsum et libero ultricies, in gravida lorem elementum.<br><br>Nulla consequat ipsum commodo leo eleifend, a imperdiet ligula convallis. Cras a odio vel arcu tincidunt tempor. Aenean condimentum velit consequat, fringilla odio a, fringilla ex. Phasellus efficitur finibus felis. Cras ornare pellentesque tincidunt. Cras rhoncus tellus at felis egestas, vel venenatis felis convallis. Donec pellentesque vestibulum erat sagittis facilisis. Ut finibus, lorem vel tempus venenatis, enim urna pellentesque quam, in mattis sapien leo sit amet erat. In ullamcorper congue justo, varius posuere tortor. Nulla porttitor sem et urna consectetur, eget rhoncus tellus dapibus. Sed condimentum felis ut orci pulvinar, ac blandit urna egestas. Quisque in tellus augue. Integer ullamcorper sollicitudin nulla. Nullam egestas iaculis odio aliquet pretium.<br><br>Donec eget iaculis metus. Maecenas nec arcu varius nunc auctor fringilla eget sed tellus. Sed condimentum malesuada enim semper tincidunt. Praesent scelerisque non nisi a ultricies. In egestas ipsum a augue scelerisque, eget luctus ex tincidunt. Etiam et congue lacus. Suspendisse vitae iaculis leo. Mauris ac vulputate orci. Aliquam ut tincidunt risus. Sed dignissim massa id ipsum laoreet, at vehicula ipsum consequat. Nam convallis eu purus quis eleifend. Mauris in tempus lectus. Sed sed purus justo. Integer vehicula iaculis diam eget commodo. Nam id porta augue, et venenatis nulla.<br><br>Nam hendrerit ipsum ut neque tincidunt gravida. Aenean eu orci eget libero iaculis ornare. Donec sagittis varius neque, id scelerisque ipsum sollicitudin sit amet. Ut pulvinar, nunc id vehicula varius, nisi velit convallis lacus, sed sollicitudin eros elit sit amet ante. Etiam tempor eu nunc consectetur pretium. Pellentesque urna nulla, faucibus nec odio at, dictum varius purus. Phasellus at erat et quam porta vulputate. Morbi rutrum orci id magna ullamcorper, et suscipit ex tempor. Interdum et malesuada fames ac ante ipsum primis in faucibus. Ut molestie mi in malesuada congue. Sed non est eget est scelerisque congue a maximus felis. Aenean vestibulum vestibulum nibh in pretium. Nullam non semper sem. Donec nec mi nunc.<br><br>";
+
+        return $string;
+    }
+
+    /**
+     * Download Acceptance.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function download()
+    {
+        $copywriting = $this->copywriting();
+
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadHTML($copywriting);
+        return $pdf->download('accept.pdf');;
     }
 }

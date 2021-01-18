@@ -27,6 +27,7 @@ class CreateUsersTable extends Migration
             $table->string('address')->nullable();
             $table->date('dob')->nullable();
             $table->string('plan', 32)->nullable();
+            $table->timestamp('accept_at')->nullable();
             $table->string('bankname', 32)->nullable();
             $table->string('bankaccno', 32)->nullable();
             $table->string('n_name', 128)->nullable();

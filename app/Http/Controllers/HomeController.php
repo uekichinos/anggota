@@ -1,8 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
-// use App\MainMenu;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -24,6 +23,15 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $ismember = false;
+
+        $user = Auth::user();
+        
+        $role = $user->getRoleNames()[0];
+        if($role == 'member') {
+            $ismember = true;
+        }
+
+        return view('home', ['user' => $user, 'ismember' => $ismember]);
     }
 }

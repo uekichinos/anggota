@@ -24,6 +24,10 @@
                 <div style="font-size:16px;">{{ date('d M Y, H:i', strtotime($user->last_online_at)) }}</div>
             </div>
             <div class="form-group">
+                <div class="md-12" style="font-weight:bold;">Accept On</div>
+                <div style="font-size:16px;">{{ (empty($user->accept_at) ? "-" : date('d M Y, H:i', strtotime($user->accept_at))) }}</div>
+            </div>
+            <div class="form-group">
                 <div class="md-12" style="font-weight:bold;">Created On</div>
                 <div style="font-size:16px;">{{ date('d M Y, H:i', strtotime($user->created_at)) }}</div>
             </div>

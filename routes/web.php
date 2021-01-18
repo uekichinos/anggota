@@ -22,6 +22,12 @@ Route::get('/', function () {
 Auth::routes(['verify' => false, 'register' => false, 'reset' => false]);
 
 Route::group(['prefix' => Config::get('app.backend_path'), 'middleware' => ['auth']], function () {
+    Route::get('/accept', ['uses'=>'UserController@accept', 'as'=>'accept.index']);
+    Route::post('/accept', ['uses'=>'UserController@sign', 'as'=>'sign.index']);
+    Route::get('/accept/download', ['uses'=>'UserController@download', 'as'=>'accept.download']);
+});
+
+Route::group(['prefix' => Config::get('app.backend_path'), 'middleware' => ['auth', 'accept']], function () {
     Route::post('/searchuser', 'UserController@searchuser');
 
     Route::get('/home', 'HomeController@index')->name('home');
