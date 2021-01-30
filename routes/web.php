@@ -1,15 +1,13 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Setting;
-
+use Illuminate\Support\Facades\Route;
 
 $relog = ['verify' => false, 'register' => false, 'reset' => false];
 
-
 $settings = Setting::where('param', 'LIKE', 'relog_register')->orWhere('param', 'LIKE', 'relog_reset')->get();
-if(count($settings) > 0) {
-    foreach($settings as $key => $setting) {
+if (count($settings) > 0) {
+    foreach ($settings as $key => $setting) {
         $tmp = explode('_', $setting->param);
         $relog[$tmp[1]] = ($setting->value == 'yes' ? true : false);
     }
@@ -36,7 +34,6 @@ Route::group(['prefix' => Config::get('app.backend_path'), 'middleware' => ['aut
     Route::get('/accept', ['uses'=>'UserController@accept', 'as'=>'accept.index']);
     Route::post('/accept', ['uses'=>'UserController@sign', 'as'=>'sign.index']);
     Route::get('/accept/download', ['uses'=>'UserController@download', 'as'=>'accept.download']);
-
 
     Route::get('impersonate/revert', ['uses' => 'UserController@revert', 'as' => 'impersonate.revert']);
     Route::get('impersonate/{user}', ['uses' => 'UserController@impersonate', 'as' => 'impersonate.impersonate'])->middleware('permission:impersonate user');

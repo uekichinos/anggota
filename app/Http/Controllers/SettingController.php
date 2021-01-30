@@ -248,7 +248,7 @@ class SettingController extends Controller
     {
         $fields = [
             'relog_register' => 'required',
-            'relog_reset' => 'required',
+            'relog_reset'    => 'required',
         ];
 
         $validator = Validator::make($request->all(), $fields);
