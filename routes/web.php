@@ -1,6 +1,6 @@
 <?php
 
-use App\Setting;
+// use App\Setting;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,9 +20,13 @@ Route::get('/', function () {
 
 $relog = ['verify' => false, 'register' => false, 'reset' => false];
 
-$settings = Setting::ReLog();
+// $settings = Setting::ReLog();
+$settings = DB::table('settings')->where('param', 'LIKE', 'relog_register')->orWhere('param', 'LIKE', 'relog_reset')->get();
 if (count($settings) > 0) {
-    $relog = $settings;
+    foreach ($settings as $key => $setting) {
+        $tmp = explode('_', $setting->param);
+        $relog[$tmp[1]] = ($setting->value == 'yes' ? true : false);
+    }
 }
 
 Auth::routes($relog);
