@@ -15,18 +15,18 @@ class Setting extends Model
 
     protected static $logOnlyDirty = true;
 
-    // public static function scopeReLog($query) 
-    // {
+    public static function scopeReLog($query) 
+    {
 
-    //     $return = [];
-    //     $settings = $query->where('param', 'LIKE', 'relog_register')->orWhere('param', 'LIKE', 'relog_reset')->get();
-    //     if (count($settings) > 0) {
-    //         foreach ($settings as $key => $setting) {
-    //             $tmp = explode('_', $setting->param);
-    //             $return[$tmp[1]] = ($setting->value == 'yes' ? true : false);
-    //         }
-    //     }
+        $return = [];
+        $settings = $query->where('param', 'LIKE', 'relog_register')->orWhere('param', 'LIKE', 'relog_reset')->get();
+        if (count($settings) > 0) {
+            foreach ($settings as $key => $setting) {
+                $tmp = explode('_', $setting->param);
+                $return[$tmp[1]] = ($setting->value == 'yes' ? true : false);
+            }
+        }
 
-    //     return $return;
-    // }
+        return $return;
+    }
 }
