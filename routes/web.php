@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Support\Facades\Route;
 
 $relog = ['verify' => false, 'register' => false, 'reset' => false];
