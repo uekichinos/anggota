@@ -226,4 +226,42 @@ class SettingController extends Controller
 
         return redirect()->route('setting.header')->with('success', 'Updated successfully!');
     }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function edit_relog()
+    {
+        $settings = Setting::where('param', 'LIKE', 'relog_%')->get();
+
+        return view('setting.relog', ['settings' => $settings]);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function update_relog(Request $request)
+    {
+        $fields = [
+            'relog_register' => 'required',
+            'relog_reset' => 'required',
+        ];
+
+        $validator = Validator::make($request->all(), $fields);
+        if ($validator->fails()) {
+            return redirect(route('setting.relog'))->withErrors($validator)->withInput();
+        }
+
+        foreach ($fields as $field => $rule) {
+            $setting = Setting::where('param', $field)->first();
+            $setting->value = $request->{$field};
+            $setting->save();
+        }
+
+        return redirect()->route('setting.relog')->with('success', 'Updated successfully!');
+    }
 }

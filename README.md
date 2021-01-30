@@ -19,5 +19,6 @@ A simple web-based membership application.
     -   Announcement
     -   Password management
     -   Header
+    -   Enable/Disable Registration and Reset Password
 -   Profile
 -   Password

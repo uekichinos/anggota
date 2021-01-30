@@ -222,6 +222,26 @@ class SettingSeeder extends Seeder
                 'options'    => '',
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
+            ], [
+                'type'       => 'admin',
+                'label'      => 'Enable Registration',
+                'param'      => 'relog_register',
+                'value'      => 'yes',
+                'field'      => 'checkbox',
+                'note'       => '',
+                'options'    => 'no,yes',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ], [
+                'type'       => 'admin',
+                'label'      => 'Enable Reset Password',
+                'param'      => 'relog_reset',
+                'value'      => 'yes',
+                'field'      => 'checkbox',
+                'note'       => '',
+                'options'    => 'no,yes',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
             ],
         ]);
     }

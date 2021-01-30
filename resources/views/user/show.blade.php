@@ -12,8 +12,8 @@
         <div class="card-body">
             <h5>Account</h5>
             <div class="form-group">
-                <div class="md-12" style="font-weight:bold;">Username</div>
-                <div style="font-size:16px;">{{ $user->username }}</div>
+                <div class="md-12" style="font-weight:bold;">Email address</div>
+                <div style="font-size:16px;">{{ $user->email }}</div>
             </div>
             <div class="form-group">
                 <div class="md-12" style="font-weight:bold;">Role</div>
@@ -44,10 +44,6 @@
             <div class="form-group">
                 <div class="md-12" style="font-weight:bold;">Member No</div>
                 <div style="font-size:16px;">{{ $user->memberno }}</div>
-            </div>
-            <div class="form-group">
-                <div class="md-12" style="font-weight:bold;">Email address</div>
-                <div style="font-size:16px;">{{ $user->email }}</div>
             </div>
             <div class="form-group">
                 <div class="md-12" style="font-weight:bold;">NRIC</div>

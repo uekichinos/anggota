@@ -1,8 +1,19 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Setting;
 
-// use App\Setting;
+
+$relog = ['verify' => false, 'register' => false, 'reset' => false];
+
+
+$settings = Setting::where('param', 'LIKE', 'relog_register')->orWhere('param', 'LIKE', 'relog_reset')->get();
+if(count($settings) > 0) {
+    foreach($settings as $key => $setting) {
+        $tmp = explode('_', $setting->param);
+        $relog[$tmp[1]] = ($setting->value == 'yes' ? true : false);
+    }
+}
 
 /*
 |--------------------------------------------------------------------------
@@ -19,12 +30,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes(['verify' => false, 'register' => false, 'reset' => false]);
+Auth::routes($relog);
 
 Route::group(['prefix' => Config::get('app.backend_path'), 'middleware' => ['auth']], function () {
     Route::get('/accept', ['uses'=>'UserController@accept', 'as'=>'accept.index']);
     Route::post('/accept', ['uses'=>'UserController@sign', 'as'=>'sign.index']);
     Route::get('/accept/download', ['uses'=>'UserController@download', 'as'=>'accept.download']);
+
+
+    Route::get('impersonate/revert', ['uses' => 'UserController@revert', 'as' => 'impersonate.revert']);
+    Route::get('impersonate/{user}', ['uses' => 'UserController@impersonate', 'as' => 'impersonate.impersonate'])->middleware('permission:impersonate user');
 });
 
 Route::group(['prefix' => Config::get('app.backend_path'), 'middleware' => ['auth', 'accept']], function () {
@@ -47,9 +62,6 @@ Route::group(['prefix' => Config::get('app.backend_path'), 'middleware' => ['aut
     Route::get('/plan/edit/{id}', ['uses'=>'PlanController@edit', 'as'=>'plan.edit'])->middleware('permission:edit plan');
     Route::post('/plan/update/{id}', ['uses'=>'PlanController@update', 'as'=>'plan.update'])->middleware('permission:edit plan');
     Route::delete('/plan/delete/{id}', ['uses'=>'PlanController@destroy', 'as'=>'plan.delete'])->middleware('permission:delete plan');
-
-    Route::get('impersonate/revert', ['uses' => 'UserController@revert', 'as' => 'impersonate.revert']);
-    Route::get('impersonate/{user}', ['uses' => 'UserController@impersonate', 'as' => 'impersonate.impersonate'])->middleware('permission:impersonate user');
 
     Route::get('/downline', ['uses'=>'DownlineController@index', 'as'=>'downline.index']);
 
@@ -92,4 +104,6 @@ Route::group(['prefix' => Config::get('app.backend_path'), 'middleware' => ['aut
     Route::post('/setting/password', ['uses'=>'SettingController@update_password', 'as'=>'setting.password'])->middleware('permission:edit setting');
     Route::get('/setting/header', ['uses'=>'SettingController@edit_header', 'as'=>'setting.header'])->middleware('permission:edit setting');
     Route::post('/setting/header', ['uses'=>'SettingController@update_header', 'as'=>'setting.header'])->middleware('permission:edit setting');
+    Route::get('/setting/relog', ['uses'=>'SettingController@edit_relog', 'as'=>'setting.relog'])->middleware('permission:edit setting');
+    Route::post('/setting/relog', ['uses'=>'SettingController@update_relog', 'as'=>'setting.relog'])->middleware('permission:edit setting');
 });

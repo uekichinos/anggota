@@ -59,6 +59,12 @@
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
 
+                                    @if(Session::has('original_user'))
+                                       <a class="dropdown-item" href="{{ route('impersonate.revert') }}" style="color: #761b18; background-color: #f9d6d5; border-color: #f7c6c5;" >
+                                            Revert back as {{ App\User::find(session()->get('original_user'))->name }}
+                                        </a>
+                                    @endif
+                                    
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
