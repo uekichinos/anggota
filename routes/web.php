@@ -1,8 +1,16 @@
 <?php
-
+use App\Setting;
 use Illuminate\Support\Facades\Route;
 
 $relog = ['verify' => false, 'register' => false, 'reset' => false];
+
+$settings = Setting::where('param', 'LIKE', 'relog_register')->orWhere('param', 'LIKE', 'relog_reset')->get();
+if(count($settings) > 0) {
+    foreach($settings as $key => $setting) {
+        $tmp = explode('_', $setting->param);
+        $relog[$tmp[1]] = ($setting->value == 'yes' ? true : false);
+    }
+}
 
 /*
 |--------------------------------------------------------------------------
