@@ -1,8 +1,7 @@
 <?php
 
+use App\Setting;
 use Illuminate\Support\Facades\Route;
-
-$relog = ['verify' => false, 'register' => false, 'reset' => false];
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +17,13 @@ $relog = ['verify' => false, 'register' => false, 'reset' => false];
 Route::get('/', function () {
     return view('welcome');
 });
+
+$relog = ['verify' => false, 'register' => false, 'reset' => false];
+
+$settings = Setting::ReLog();
+if (count($settings) > 0) {
+    $relog = $settings;
+}
 
 Auth::routes($relog);
 
