@@ -11,15 +11,15 @@
 
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>  
-    <script src="https://anggota-ltpxu.ondigitalocean.app/js/app.js" defer></script>
+    <script src="{{ asset('js/app.js') }}" defer></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
-    <link href="https://anggota-ltpxu.ondigitalocean.app/css/app.css" rel="stylesheet">
-    <link href="https://anggota-ltpxu.ondigitalocean.app/css/custom.css" rel="stylesheet">
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
     
     @stack('before')
 </head>
