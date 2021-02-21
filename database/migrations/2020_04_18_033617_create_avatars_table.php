@@ -19,7 +19,7 @@ class CreateAvatarsTable extends Migration
             $table->timestamps();
         });
 
-        DB::statement('ALTER TABLE avatars ADD filedata mediumblob'); //MEDIUMBLOB
+        DB::statement('ALTER TABLE avatars ADD filedata text'); //MEDIUMBLOB
     }
 
     /**
